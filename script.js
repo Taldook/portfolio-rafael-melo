@@ -2142,7 +2142,7 @@ if (quizSection) {
         salmo404: {
             title: "Salmo 404",
             icon: "🚫",
-            text: "Santo Bug que estais no código, Santificada seja a vossa Gambiarra. Venha a nós o vosso Stack Overflow, Seja feita a vossa lógica, Assim no Backend como no Frontend. O café nosso de cada dia nos dai hoje, Perdoai os nossos git push --force, Assim como nós perdoamos o estagiário que deletou o banco. Não nos deixeis cair a internet (especialmente em dia de jogo do Corinthians), Mas livrai-nos do Loop Infinito. Enter."
+            text: "Santo Bug que estais no código, Santificada seja a vossa Gambiarra. Venha a nós o vosso Stack Overflow, Seja feita a vossa lógica, Assim no Backend como no Frontend. O café nosso de cada dia nos dai hoje, Perdoai os nossos git push --force, Assim como nós perdoamos o estagiário que deletou o banco. Não nos deixeis cair a internet (especialmente em dia de jogo do Palmeiras), Mas livrai-nos do Loop Infinito. Enter."
         },
         avegambiarra: {
             title: "Ave Gambiarra",
@@ -4775,4 +4775,5 @@ function performSharedElementTransition() {
     }
 
 });
+
 
