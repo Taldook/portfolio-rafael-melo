@@ -2025,7 +2025,7 @@ if (quizSection) {
         { s: 'Tim', n: 'Timão', num: '1914', c: 'chaos', d: 'Elemento radioativo. Causa euforia extrema ou depressão profunda.' },
         { s: 'Wi', n: 'Wi-Fi', num: '404', c: 'tech', d: 'Elemento gasoso. Em Uberaba, tende a evaporar quando chove.' },
         { s: 'Bz', n: 'Bezerro', num: 'B1', c: 'agro', d: 'Elemento biológico. Emite som em alta frequência às 3 da manhã.' },
-        { s: 'Tr', n: 'Trem', num: '31', c: 'minas', d: 'O elemento coringa de MG. Substitui qualquer substantivo do universo.' },
+        { s: 'Tr', n: 'Trem', num: '31', c: 'minas', d: 'O elemento coringa de SP. Substitui qualquer substantivo do universo.' },
         { s: 'Bg', n: 'Bug', num: '404', c: 'tech', d: 'Onipresente. Reproduz-se assexuadamente no escuro do servidor.' },
         { s: 'Dp', n: 'Deploy', num: '13', c: 'tech', d: 'Altamente explosivo em sextas-feiras. Causa taquicardia.' },
         { s: 'So', n: 'Sono', num: '0', c: 'chaos', d: 'Elemento raro, quase extinto. Encontrado apenas em lendas.' },
@@ -4775,5 +4775,6 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
