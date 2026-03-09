@@ -7227,16 +7227,27 @@ body.mode-1914 button {
     pointer-events: none; /* Permite clique após finalizar */
 }
 
-/* Fundo branco/off-white que vai sumir */
+
 .loader-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: #020617;
+    /* Um gradiente roxo profundo com cara de cinema */
+    background: radial-gradient(circle at center, #1e0b36 0%, #0a0118 100%);
     transition: opacity 0.8s ease-in-out;
     z-index: 1;
+    overflow: hidden; /* Garante que as partículas não saiam do fundo */
+}
+
+/* Estilo das Partículas */
+.particle {
+    position: absolute;
+    background: rgba(168, 85, 247, 0.4); /* Roxo claro semi-transparente */
+    border-radius: 50%;
+    pointer-events: none;
+    animation: floatParticle linear infinite;
 }
 
 /* O container do logo que vai se mover */
@@ -9715,5 +9726,6 @@ body.mode-sketch {
     transform: scaleY(1); /* Abre a luz */
 
 }
+
 
 
