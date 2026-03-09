@@ -56,7 +56,36 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Capivara da Lagoa", role: "Local", text: "Ele instalou ar-condicionado na nossa toca. Rei da orla." },
         { name: "Marcão", role: "Ídolo", text: "ESSE RAFAEL NÃO É BRINCADEIRA NÃO! É PROGRAMADOR, É iNTELIGENTE, É IDOLO! UMA BAITA DUMA LÓGICA DE PROGRAMAÇÃO!" }
     ];
+    
+function initLoaderParticles() {
+    const bg = document.querySelector('.loader-bg');
+    if (!bg) return;
 
+    for (let i = 0; i < 40; i++) {
+        const p = document.createElement('div');
+        p.className = 'particle';
+        
+        // Tamanhos variados (2px a 5px)
+        const size = Math.random() * 3 + 2 + 'px';
+        p.style.width = size;
+        p.style.height = size;
+        
+        // Posição horizontal aleatória
+        p.style.left = Math.random() * 100 + 'vw';
+        // Inicia em alturas diferentes para não subirem todas juntas
+        p.style.top = Math.random() * 100 + 'vh';
+        
+        // Duração da subida (entre 6 e 12 segundos)
+        p.style.animationDuration = Math.random() * 6 + 6 + 's';
+        // Atraso para começarem em tempos diferentes
+        p.style.animationDelay = Math.random() * 5 + 's';
+        
+        bg.appendChild(p);
+    }
+}
+
+// Chame a função quando o site carregar
+initLoaderParticles();
     // --- POPULATE MARQUEE ---
     const marqueeContent = document.querySelector('.marquee-content');
     if (marqueeContent) {
@@ -4775,6 +4804,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
