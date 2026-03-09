@@ -122,33 +122,6 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     }, 3500); // 3.5 segundos (tempo do RM desenhar + folga)
 });
-
-    // 2. --- LÓGICA DE SAÍDA DO LOADER ---
-    // O RM leva 2.5s para desenhar + 0.5s para preencher = 3s total.
-    // Vamos esperar 3.5s para dar um respiro e fechar.
-    
-    setTimeout(() => {
-        const loader = document.getElementById('intro-loader');
-        const body = document.body;
-
-        if (loader) {
-            // Adiciona a classe que você tem no CSS (.loader-finished .loader-bg { opacity: 0; })
-            loader.classList.add('loader-finished');
-            
-            // Remove a trava de scroll do body
-            body.classList.remove('loading-locked');
-
-            // Após a transição de opacidade (0.8s no seu CSS), removemos o loader de vez
-            setTimeout(() => {
-                loader.style.display = 'none';
-                
-                // Se o seu logo da Navbar estiver oculto, mostramos ele aqui
-                const navLogo = document.querySelector('.logo.hidden-initially');
-                if (navLogo) navLogo.style.opacity = '1';
-            }, 800); 
-        }
-    }, 3500); // Tempo total da intro
-});
     // --- LÓGICA DE TRANSIÇÃO (OPCIONAL - CASO VOCÊ AINDA NÃO TENHA) ---
     // Remove o loader após as animações de CSS (2.5s draw + 0.5s fill)
     setTimeout(() => {
@@ -4885,6 +4858,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
