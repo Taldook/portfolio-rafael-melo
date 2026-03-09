@@ -58,9 +58,9 @@ document.addEventListener('DOMContentLoaded', () => {
     ];
     
 document.addEventListener('DOMContentLoaded', () => {
-    
-    // 1. --- GERENCIADOR DAS PARTÍCULAS ---
     const canvas = document.getElementById('particle-canvas');
+    const loader = document.getElementById('intro-loader');
+    
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -90,18 +90,14 @@ document.addEventListener('DOMContentLoaded', () => {
             }
             draw() {
                 ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-                ctx.shadowBlur = 5;
-                ctx.shadowColor = "rgba(139, 92, 246, 0.5)";
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                ctx.shadowBlur = 0;
             }
         }
 
-        function init() { 
-            particles = []; // Limpa antes de iniciar
-            for (let i = 0; i < particleCount; i++) particles.push(new Particle()); 
+        function init() {
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
         }
 
         function animate() {
@@ -109,10 +105,23 @@ document.addEventListener('DOMContentLoaded', () => {
             particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
-
         init();
         animate();
     }
+
+    // --- ESSE É O PONTO CHAVE: Fazer o loader sumir ---
+    setTimeout(() => {
+        if (loader) {
+            loader.classList.add('loader-finished'); // Inicia o fade out
+            document.body.classList.remove('loading-locked'); // Libera o scroll
+            
+            // Remove do DOM após o fade para não pesar
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 800);
+        }
+    }, 3500); // 3.5 segundos (tempo do RM desenhar + folga)
+});
 
     // 2. --- LÓGICA DE SAÍDA DO LOADER ---
     // O RM leva 2.5s para desenhar + 0.5s para preencher = 3s total.
@@ -4876,6 +4885,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
