@@ -60,7 +60,8 @@ document.addEventListener('DOMContentLoaded', () => {
 document.addEventListener('DOMContentLoaded', () => {
     const canvas = document.getElementById('particle-canvas');
     const loader = document.getElementById('intro-loader');
-    
+
+    // 1. LÓGICA DAS PARTÍCULAS (ROXAS)
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
@@ -109,33 +110,19 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     }
 
-    // --- ESSE É O PONTO CHAVE: Fazer o loader sumir ---
+    // 2. GATILHO PARA O LOADER SUMIR (O QUE ESTAVA FALTANDO)
+    // Espera 3.5 segundos (tempo da animação do RM) e esconde o loader
     setTimeout(() => {
         if (loader) {
-            loader.classList.add('loader-finished'); // Inicia o fade out
-            document.body.classList.remove('loading-locked'); // Libera o scroll
+            loader.classList.add('loader-finished'); // Faz o fade out
+            document.body.classList.remove('loading-locked'); // Destrava o site
             
-            // Remove do DOM após o fade para não pesar
+            // Remove do display depois que o fade acaba
             setTimeout(() => {
                 loader.style.display = 'none';
             }, 800);
         }
-    }, 3500); // 3.5 segundos (tempo do RM desenhar + folga)
-});
-    // --- LÓGICA DE TRANSIÇÃO (OPCIONAL - CASO VOCÊ AINDA NÃO TENHA) ---
-    // Remove o loader após as animações de CSS (2.5s draw + 0.5s fill)
-    setTimeout(() => {
-        const loader = document.getElementById('intro-loader');
-        if (loader) {
-            loader.classList.add('loader-finished');
-            document.body.classList.remove('loading-locked');
-            
-            // Opcional: remover o elemento do DOM após a transição de opacidade
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 800);
-        }
-    }, 3500); // 3.5 segundos para garantir que o usuário veja o preenchimento do RM
+    }, 3500); 
 });
 
 // Chame a função quando o site carregar
@@ -4858,6 +4845,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
