@@ -7227,17 +7227,15 @@ body.mode-1914 button {
     pointer-events: none; /* Permite clique após finalizar */
 }
 
-
-/* --- FUNDO E CANVAS (SUBSTITUTO DAS PARTÍCULAS ANTIGAS) --- */
-
+/* --- FUNDO E CANVAS (CORES SINCRONIZADAS COM O DASHBOARD) --- */
 .loader-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* O gradiente premium que você escolheu */
-    background: radial-gradient(circle at center, #0f051c 0%, #05010a 40%, #000000 100%);
+    /* Gradiente radial usando as cores do seu dashboard: #151520 e #0b0b0f */
+    background: radial-gradient(circle at center, #151520 0%, #0b0b0f 70%, #050508 100%);
     transition: opacity 0.8s ease-in-out;
     z-index: 1;
     overflow: hidden;
@@ -7252,7 +7250,7 @@ body.mode-1914 button {
     height: 100%;
     display: block;
     pointer-events: none;
-    z-index: 1; /* Fica dentro da bg, mas atrás do logo (que é z-index: 2) */
+    z-index: 1; /* Fica dentro da bg, mas atrás do logo */
 }
 
 /* O container do logo que vai se mover */
@@ -7264,7 +7262,7 @@ body.mode-1914 button {
     display: flex;
     justify-content: center;
     align-items: center;
-    transform-origin: center center; /* Importante para o scale funcionar do centro */
+    transform-origin: center center;
     will-change: transform, top, left;
 }
 
@@ -7272,17 +7270,24 @@ body.mode-1914 button {
 .intro-svg {
     width: 100%;
     height: 100%;
-    font-family: var(--font-heading); /* Clash Display */
+    font-family: var(--font-heading);
     font-weight: 700;
+    /* Garante que o brilho não seja cortado nas bordas do SVG */
+    overflow: visible; 
 }
 
 .intro-text {
     font-size: 50px;
     fill: transparent;
-    stroke: var(--primary-blue);
-    stroke-width: 1px; /* Começa fino desenhando */
+    stroke: #8b5cf6; /* Roxo primário do seu dashboard */
+    stroke-width: 1.5px; /* Um pouco mais grosso para destacar o desenho */
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
+    
+    /* Adicionando a sombra (Glow) no RM */
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5)) 
+            drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
+
     animation: drawLogo 2.5s ease-in-out forwards, fillLogo 0.5s ease-out 2.5s forwards;
 }
 
@@ -7299,7 +7304,7 @@ body.mode-1914 button {
 /* Animação de preencher e ficar solido */
 @keyframes fillLogo {
     to {
-        fill: var(--primary-blue);
+        fill: #8b5cf6; /* Preenche com o roxo do dashboard */
         stroke-width: 0;
     }
 }
@@ -7318,7 +7323,6 @@ body.loading-locked {
 .logo.hidden-initially {
     opacity: 0;
 }
-
 
 
 /* --- COURSE SECTION STYLES (METODOLOGIA DO MESTRE) --- */
@@ -9731,6 +9735,7 @@ body.mode-sketch {
     transform: scaleY(1); /* Abre a luz */
 
 }
+
 
 
 
