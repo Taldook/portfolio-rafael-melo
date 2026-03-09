@@ -57,32 +57,72 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Marcão", role: "Ídolo", text: "ESSE RAFAEL NÃO É BRINCADEIRA NÃO! É PROGRAMADOR, É iNTELIGENTE, É IDOLO! UMA BAITA DUMA LÓGICA DE PROGRAMAÇÃO!" }
     ];
     
-function initLoaderParticles() {
-    const bg = document.querySelector('.loader-bg');
-    if (!bg) return;
+document.addEventListener('DOMContentLoaded', () => {
+    
+    // --- LÓGICA DO CANVAS (PARTÍCULAS) ---
+    const canvas = document.getElementById('particle-canvas');
+    if (canvas) {
+        const ctx = canvas.getContext('2d');
+        let particles = [];
+        const particleCount = 60;
 
-    for (let i = 0; i < 40; i++) {
-        const p = document.createElement('div');
-        p.className = 'particle';
-        
-        // Tamanhos variados (2px a 5px)
-        const size = Math.random() * 3 + 2 + 'px';
-        p.style.width = size;
-        p.style.height = size;
-        
-        // Posição horizontal aleatória
-        p.style.left = Math.random() * 100 + 'vw';
-        // Inicia em alturas diferentes para não subirem todas juntas
-        p.style.top = Math.random() * 100 + 'vh';
-        
-        // Duração da subida (entre 6 e 12 segundos)
-        p.style.animationDuration = Math.random() * 6 + 6 + 's';
-        // Atraso para começarem em tempos diferentes
-        p.style.animationDelay = Math.random() * 5 + 's';
-        
-        bg.appendChild(p);
+        function resize() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resize);
+        resize();
+
+        class Particle {
+            constructor() { this.reset(); }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = Math.random() * canvas.height;
+                this.size = Math.random() * 2 + 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.opacity = Math.random() * 0.5;
+            }
+            update() {
+                this.x += this.speedX;
+                this.y += this.speedY;
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+            }
+            draw() {
+                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`; // Roxo do seu dashboard
+                ctx.beginPath();
+                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
+                ctx.fill();
+            }
+        }
+
+        function init() { for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
+        function animate() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            particles.forEach(p => { p.update(); p.draw(); });
+            requestAnimationFrame(animate);
+        }
+        init();
+        animate();
     }
-}
+
+    // --- LÓGICA DE FINALIZAR O LOADER ---
+    const loader = document.getElementById('intro-loader');
+    if (loader) {
+        // Trava o scroll no início
+        document.body.classList.add('loading-locked');
+
+        // Espera 3.5 segundos (tempo das suas animações de SVG + um respiro)
+        setTimeout(() => {
+            loader.classList.add('loader-finished');
+            document.body.classList.remove('loading-locked');
+            
+            // Se você tiver um logo na navbar que deve aparecer:
+            const navLogo = document.querySelector('.logo.hidden-initially');
+            if (navLogo) navLogo.style.opacity = "1";
+        }, 3500);
+    }
+});
 
 // Chame a função quando o site carregar
 initLoaderParticles();
@@ -4804,6 +4844,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
