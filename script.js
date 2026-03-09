@@ -59,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- LÓGICA DO CANVAS (PARTÍCULAS) ---
+    // --- LÓGICA DO CANVAS (PARTÍCULAS PREMIUM) ---
     const canvas = document.getElementById('particle-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 60;
+        const particleCount = 60; // Quantidade ideal para não poluir
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -75,53 +75,76 @@ document.addEventListener('DOMContentLoaded', () => {
 
         class Particle {
             constructor() { this.reset(); }
+            
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
+                this.speedX = (Math.random() - 0.5) * 0.4; // Movimento suave e elegante
+                this.speedY = (Math.random() - 0.5) * 0.4;
                 this.opacity = Math.random() * 0.5;
             }
+
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
+
+                // Se sair da tela, reseta a partícula
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
+                    this.reset();
+                }
             }
+
             draw() {
-                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`; // Roxo do seu dashboard
+                // Roxo exato do seu Dashboard (#8b5cf6)
+                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
+                
+                // Efeito de brilho nas partículas
+                ctx.shadowBlur = 5;
+                ctx.shadowColor = "rgba(139, 92, 246, 0.4)";
+                
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
+                
+                // Limpa o shadowBlur para manter a performance alta
+                ctx.shadowBlur = 0;
             }
         }
 
-        function init() { for (let i = 0; i < particleCount; i++) particles.push(new Particle()); }
+        function init() { 
+            for (let i = 0; i < particleCount; i++) {
+                particles.push(new Particle());
+            } 
+        }
+
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
+            particles.forEach(p => { 
+                p.update(); 
+                p.draw(); 
+            });
             requestAnimationFrame(animate);
         }
+
         init();
         animate();
     }
 
-    // --- LÓGICA DE FINALIZAR O LOADER ---
-    const loader = document.getElementById('intro-loader');
-    if (loader) {
-        // Trava o scroll no início
-        document.body.classList.add('loading-locked');
-
-        // Espera 3.5 segundos (tempo das suas animações de SVG + um respiro)
-        setTimeout(() => {
+    // --- LÓGICA DE TRANSIÇÃO (OPCIONAL - CASO VOCÊ AINDA NÃO TENHA) ---
+    // Remove o loader após as animações de CSS (2.5s draw + 0.5s fill)
+    setTimeout(() => {
+        const loader = document.getElementById('intro-loader');
+        if (loader) {
             loader.classList.add('loader-finished');
             document.body.classList.remove('loading-locked');
             
-            // Se você tiver um logo na navbar que deve aparecer:
-            const navLogo = document.querySelector('.logo.hidden-initially');
-            if (navLogo) navLogo.style.opacity = "1";
-        }, 3500);
-    }
+            // Opcional: remover o elemento do DOM após a transição de opacidade
+            setTimeout(() => {
+                loader.style.display = 'none';
+            }, 800);
+        }
+    }, 3500); // 3.5 segundos para garantir que o usuário veja o preenchimento do RM
 });
 
 // Chame a função quando o site carregar
@@ -4844,6 +4867,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
