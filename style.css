@@ -7228,36 +7228,46 @@ body.mode-1914 button {
 }
 
 
-/* Fundo Roxo Premium com suas cores */
+/* Fundo Roxo Neon Premium */
 .loader-bg {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    /* Gradiente usando seu roxo primary e um tom mais escuro para profundidade */
-    background: radial-gradient(circle at center, #8b5cf6 0%, #1e0b36 100%);
+    /* Roxo Neon no centro que escurece para um roxo ultra profundo (não preto puro) */
+    background: radial-gradient(circle at center, 
+        #a855f7 0%,    /* Roxo Neon Vibrante */
+        #4c1d95 40%,   /* Roxo Médio Saturo */
+        #120721 100%   /* "Deep Night" Roxo */
+    );
     transition: opacity 0.8s ease-in-out;
     z-index: 1;
     overflow: hidden;
 }
 
-/* Estilo das Partículas */
+/* Partículas Neon com Brilho (Glow) */
 .particle {
     position: absolute;
-    /* Usando sua cor primary com transparência para as partículas */
-    background: rgba(139, 92, 246, 0.5); 
+    background: #c084fc; /* Roxo bem clarinho para brilhar */
     border-radius: 50%;
     pointer-events: none;
-    box-shadow: 0 0 10px rgba(139, 92, 246, 0.3); /* Leve brilho */
+    /* Efeito Glow: o ponto parece que está emitindo luz */
+    box-shadow: 0 0 12px 2px rgba(168, 85, 247, 0.7); 
     animation: floatParticle linear infinite;
 }
 
 @keyframes floatParticle {
-    0% { transform: translateY(0) translateX(0); opacity: 0; }
-    20% { opacity: 0.6; }
-    80% { opacity: 0.6; }
-    100% { transform: translateY(-100vh) translateX(30px); opacity: 0; }
+    0% { 
+        transform: translateY(0) translateX(0); 
+        opacity: 0; 
+    }
+    20% { opacity: 0.8; }
+    80% { opacity: 0.8; }
+    100% { 
+        transform: translateY(-100vh) translateX(40px); 
+        opacity: 0; 
+    }
 }
 
 /* O container do logo que vai se mover */
@@ -9736,6 +9746,7 @@ body.mode-sketch {
     transform: scaleY(1); /* Abre a luz */
 
 }
+
 
 
 
