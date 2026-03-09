@@ -59,12 +59,12 @@ document.addEventListener('DOMContentLoaded', () => {
     
 document.addEventListener('DOMContentLoaded', () => {
     
-    // --- LÓGICA DO CANVAS (PARTÍCULAS PREMIUM) ---
+    // 1. --- GERENCIADOR DAS PARTÍCULAS ---
     const canvas = document.getElementById('particle-canvas');
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 60; // Quantidade ideal para não poluir
+        const particleCount = 60;
 
         function resize() {
             canvas.width = window.innerWidth;
@@ -75,55 +75,38 @@ document.addEventListener('DOMContentLoaded', () => {
 
         class Particle {
             constructor() { this.reset(); }
-            
             reset() {
                 this.x = Math.random() * canvas.width;
                 this.y = Math.random() * canvas.height;
                 this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.4; // Movimento suave e elegante
-                this.speedY = (Math.random() - 0.5) * 0.4;
+                this.speedX = (Math.random() - 0.5) * 0.5;
+                this.speedY = (Math.random() - 0.5) * 0.5;
                 this.opacity = Math.random() * 0.5;
             }
-
             update() {
                 this.x += this.speedX;
                 this.y += this.speedY;
-
-                // Se sair da tela, reseta a partícula
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) {
-                    this.reset();
-                }
+                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
             }
-
             draw() {
-                // Roxo exato do seu Dashboard (#8b5cf6)
                 ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-                
-                // Efeito de brilho nas partículas
                 ctx.shadowBlur = 5;
-                ctx.shadowColor = "rgba(139, 92, 246, 0.4)";
-                
+                ctx.shadowColor = "rgba(139, 92, 246, 0.5)";
                 ctx.beginPath();
                 ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
                 ctx.fill();
-                
-                // Limpa o shadowBlur para manter a performance alta
                 ctx.shadowBlur = 0;
             }
         }
 
         function init() { 
-            for (let i = 0; i < particleCount; i++) {
-                particles.push(new Particle());
-            } 
+            particles = []; // Limpa antes de iniciar
+            for (let i = 0; i < particleCount; i++) particles.push(new Particle()); 
         }
 
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { 
-                p.update(); 
-                p.draw(); 
-            });
+            particles.forEach(p => { p.update(); p.draw(); });
             requestAnimationFrame(animate);
         }
 
@@ -131,6 +114,32 @@ document.addEventListener('DOMContentLoaded', () => {
         animate();
     }
 
+    // 2. --- LÓGICA DE SAÍDA DO LOADER ---
+    // O RM leva 2.5s para desenhar + 0.5s para preencher = 3s total.
+    // Vamos esperar 3.5s para dar um respiro e fechar.
+    
+    setTimeout(() => {
+        const loader = document.getElementById('intro-loader');
+        const body = document.body;
+
+        if (loader) {
+            // Adiciona a classe que você tem no CSS (.loader-finished .loader-bg { opacity: 0; })
+            loader.classList.add('loader-finished');
+            
+            // Remove a trava de scroll do body
+            body.classList.remove('loading-locked');
+
+            // Após a transição de opacidade (0.8s no seu CSS), removemos o loader de vez
+            setTimeout(() => {
+                loader.style.display = 'none';
+                
+                // Se o seu logo da Navbar estiver oculto, mostramos ele aqui
+                const navLogo = document.querySelector('.logo.hidden-initially');
+                if (navLogo) navLogo.style.opacity = '1';
+            }, 800); 
+        }
+    }, 3500); // Tempo total da intro
+});
     // --- LÓGICA DE TRANSIÇÃO (OPCIONAL - CASO VOCÊ AINDA NÃO TENHA) ---
     // Remove o loader após as animações de CSS (2.5s draw + 0.5s fill)
     setTimeout(() => {
@@ -4867,6 +4876,7 @@ function performSharedElementTransition() {
     }
 
 });
+
 
 
 
