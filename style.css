@@ -7216,113 +7216,63 @@ body.mode-1914 button {
 /* --- ESTILOS DO LOADER DE ENTRADA --- */
 #intro-loader {
     position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 9999999; /* Acima de tudo, inclusive cursor */
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999999;
     display: flex;
     justify-content: center;
     align-items: center;
-    pointer-events: none; /* Permite clique após finalizar */
+    pointer-events: none;
 }
 
-/* --- FUNDO E CANVAS (CORES SINCRONIZADAS COM O DASHBOARD) --- */
 .loader-bg {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    /* Gradiente radial usando as cores do seu dashboard: #151520 e #0b0b0f */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
     background: radial-gradient(circle at center, #151520 0%, #0b0b0f 70%, #050508 100%);
     transition: opacity 0.8s ease-in-out;
-    z-index: 1;
-    overflow: hidden;
+    z-index: 1; /* Fundo no nível 1 */
 }
 
-/* A "tela" onde o JS vai desenhar os pontinhos roxos */
 #particle-canvas {
     position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    display: block;
-    pointer-events: none;
-    z-index: 1; /* Fica dentro da bg, mas atrás do logo */
+    top: 0; left: 0;
+    width: 100%; height: 100%;
+    z-index: 2; /* Partículas no nível 2 */
 }
 
-/* O container do logo que vai se mover */
 .intro-logo-wrapper {
     position: relative;
-    z-index: 2;
-    width: 300px; /* Tamanho inicial grande */
+    z-index: 3; /* Logo no nível 3 (frente de tudo) */
+    width: 300px;
     height: 150px;
     display: flex;
     justify-content: center;
     align-items: center;
-    transform-origin: center center;
-    will-change: transform, top, left;
-}
-
-/* O Texto SVG */
-.intro-svg {
-    width: 100%;
-    height: 100%;
-    font-family: var(--font-heading);
-    font-weight: 700;
-    /* Garante que o brilho não seja cortado nas bordas do SVG */
-    overflow: visible; 
 }
 
 .intro-text {
     font-size: 50px;
     fill: transparent;
-    stroke: #8b5cf6; /* Roxo primário do seu dashboard */
-    stroke-width: 1.5px; /* Um pouco mais grosso para destacar o desenho */
+    stroke: #8b5cf6;
+    stroke-width: 1.5px;
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
-    
-    /* Adicionando a sombra (Glow) no RM */
-    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5)) 
-            drop-shadow(0 0 20px rgba(139, 92, 246, 0.3));
-
+    filter: drop-shadow(0 0 8px rgba(139, 92, 246, 0.5));
     animation: drawLogo 2.5s ease-in-out forwards, fillLogo 0.5s ease-out 2.5s forwards;
 }
 
-/* Animação de "Desenhar" o logo */
-@keyframes drawLogo {
-    0% {
-        stroke-dashoffset: 300;
-    }
-    100% {
-        stroke-dashoffset: 0;
-    }
-}
+@keyframes drawLogo { to { stroke-dashoffset: 0; } }
+@keyframes fillLogo { to { fill: #8b5cf6; stroke-width: 0; } }
 
-/* Animação de preencher e ficar solido */
-@keyframes fillLogo {
-    to {
-        fill: #8b5cf6; /* Preenche com o roxo do dashboard */
-        stroke-width: 0;
-    }
-}
-
-/* Classes controladas via JS para a transição */
-.loader-finished .loader-bg {
+/* A classe que o JS vai ativar */
+.loader-finished {
     opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.8s ease-in-out;
 }
 
-/* Esconde o scroll durante o load */
-body.loading-locked {
-    overflow: hidden !important;
-}
-
-/* Esconde o logo original da navbar enquanto a animação acontece */
-.logo.hidden-initially {
-    opacity: 0;
-}
+body.loading-locked { overflow: hidden !important; }
 
 
 /* --- COURSE SECTION STYLES (METODOLOGIA DO MESTRE) --- */
@@ -9735,6 +9685,7 @@ body.mode-sketch {
     transform: scaleY(1); /* Abre a luz */
 
 }
+
 
 
 
