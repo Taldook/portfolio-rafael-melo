@@ -25,7 +25,7 @@
 </head>
 
 <body id="main-body">
-
+<canvas id="particle-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; pointer-events: none;"></canvas>
 
 
     <!-- AVISO DE EXPERIÊNCIA -->
@@ -163,16 +163,14 @@
 
 
     <!-- LOADER DE ENTRADA (SHARED ELEMENT TRANSITION) -->
-   <div id="intro-loader">
-    <div class="loader-bg">
-        <canvas id="particle-canvas"></canvas>
+    <div id="intro-loader">
+        <div class="loader-bg"></div>
+        <div class="intro-logo-wrapper">
+            <svg class="intro-svg" viewBox="0 0 140 60">
+                <text x="50%" y="50%" dy=".35em" text-anchor="middle" class="intro-text">RM.</text>
+            </svg>
+        </div>
     </div>
-    <div class="intro-logo-wrapper">
-        <svg class="intro-svg" viewBox="0 0 140 60">
-            <text x="50%" y="50%" dy=".35em" text-anchor="middle" class="intro-text">RM.</text>
-        </svg>
-    </div>
-</div>
 
     <!-- Custom Cursor -->
     <div class="cursor"></div>
@@ -3732,7 +3730,6 @@ Service).</p>
 <!-- Mirrored from portfolio.rafaeldemelo.workers.dev/ by HTTrack Website Copier/3.x [XR&CO'2014], Sun, 08 Feb 2026 22:18:27 GMT -->
 
 </html>
-
 
 
 

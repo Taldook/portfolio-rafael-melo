@@ -7225,7 +7225,6 @@ body.mode-1914 button {
     justify-content: center;
     align-items: center;
     pointer-events: none;
-    background: #0b0b0f; /* Fundo de segurança */
 }
 
 .loader-bg {
@@ -7234,7 +7233,7 @@ body.mode-1914 button {
     left: 0;
     width: 100%;
     height: 100%;
-    /* O ROXO DO SEU DASHBOARD AQUI */
+    /* Gradiente com as cores do seu dashboard */
     background: radial-gradient(circle at center, #151520 0%, #0b0b0f 70%, #000000 100%);
     transition: opacity 0.8s ease-in-out;
     z-index: 1;
@@ -7248,12 +7247,12 @@ body.mode-1914 button {
     width: 100%;
     height: 100%;
     display: block;
-    z-index: 2; /* Garantindo que apareça sobre o fundo */
+    z-index: 2; /* Garantindo que fique na frente do fundo */
 }
 
 .intro-logo-wrapper {
     position: relative;
-    z-index: 3;
+    z-index: 3; /* Logo sempre na frente das partículas */
     width: 300px;
     height: 150px;
     display: flex;
@@ -7264,35 +7263,57 @@ body.mode-1914 button {
 .intro-svg {
     width: 100%;
     height: 100%;
-    /* VOLTANDO SUA FONTE ORIGINAL */
-    font-family: var(--font-heading), sans-serif;
+    font-family: var(--font-heading); /* Clash Display */
     font-weight: 700;
-    overflow: visible;
+    overflow: visible; /* IMPORTANTE: para a sombra não cortar */
 }
 
 .intro-text {
     font-size: 50px;
     fill: transparent;
-    stroke: #8b5cf6; /* Roxo do dash */
+    stroke: #8b5cf6; /* Roxo inicial */
     stroke-width: 1.2px;
     stroke-dasharray: 300;
     stroke-dashoffset: 300;
-    /* Efeito de brilho no RM */
-    filter: drop-shadow(0 0 12px rgba(139, 92, 246, 0.5));
+    
+   /* Brilho Marinho Discreto (Shadow suave em vez de neon) */
+    filter: drop-shadow(0 0 15px rgba(27, 39, 53, 0.6));
+    
     animation: drawLogo 2.5s ease-in-out forwards, fillLogo 0.5s ease-out 2.5s forwards;
 }
 
-@keyframes drawLogo { to { stroke-dashoffset: 0; } }
-@keyframes fillLogo { to { fill: #8b5cf6; stroke-width: 0; } }
-
-/* CLASSE DE SAÍDA - IMPORTANTE */
-.loader-finished {
-    opacity: 0 !important;
-    visibility: hidden;
-    transition: opacity 0.8s ease-in-out, visibility 0.8s;
+@keyframes drawLogo {
+    to { stroke-dashoffset: 0; }
 }
 
-body.loading-locked { overflow: hidden !important; }
+@keyframes fillLogo {
+
+    to {
+
+        fill: var(--primary-blue);
+
+        stroke-width: 0;
+
+    }
+
+}
+
+/* Classes controladas via JS para a transição */
+.loader-finished .loader-bg {
+    opacity: 0;
+}
+
+/* Esconde o scroll durante o load */
+body.loading-locked {
+    overflow: hidden !important;
+}
+
+/* Esconde o logo original da navbar enquanto a animação acontece */
+.logo.hidden-initially {
+    opacity: 0;
+}
+
+
 
 /* --- COURSE SECTION STYLES (METODOLOGIA DO MESTRE) --- */
 
@@ -9704,13 +9725,3 @@ body.mode-sketch {
     transform: scaleY(1); /* Abre a luz */
 
 }
-
-
-
-
-
-
-
-
-
-

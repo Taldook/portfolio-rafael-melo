@@ -57,76 +57,61 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Marcão", role: "Ídolo", text: "ESSE RAFAEL NÃO É BRINCADEIRA NÃO! É PROGRAMADOR, É iNTELIGENTE, É IDOLO! UMA BAITA DUMA LÓGICA DE PROGRAMAÇÃO!" }
     ];
     
-document.addEventListener('DOMContentLoaded', () => {
+(function() {
+    // 1. Forçar a trava de scroll no HTML
+    document.documentElement.classList.add('loading-active');
+
     const canvas = document.getElementById('particle-canvas');
     const loader = document.getElementById('intro-loader');
-
-    // 1. LÓGICA DAS PARTÍCULAS (ROXAS)
+    
     if (canvas) {
         const ctx = canvas.getContext('2d');
         let particles = [];
-        const particleCount = 60;
-
-        function resize() {
+        
+        const resize = () => {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-        }
+        };
         window.addEventListener('resize', resize);
         resize();
 
-        class Particle {
-            constructor() { this.reset(); }
-            reset() {
-                this.x = Math.random() * canvas.width;
-                this.y = Math.random() * canvas.height;
-                this.size = Math.random() * 2 + 0.5;
-                this.speedX = (Math.random() - 0.5) * 0.5;
-                this.speedY = (Math.random() - 0.5) * 0.5;
-                this.opacity = Math.random() * 0.5;
-            }
-            update() {
-                this.x += this.speedX;
-                this.y += this.speedY;
-                if (this.x < 0 || this.x > canvas.width || this.y < 0 || this.y > canvas.height) this.reset();
-            }
-            draw() {
-                ctx.fillStyle = `rgba(139, 92, 246, ${this.opacity})`;
-                ctx.beginPath();
-                ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-                ctx.fill();
-            }
+        for(let i=0; i<70; i++) {
+            particles.push({
+                x: Math.random() * canvas.width,
+                y: Math.random() * canvas.height,
+                s: Math.random() * 2,
+                vX: (Math.random() - 0.5) * 0.5,
+                vY: (Math.random() - 0.5) * 0.5
+            });
         }
 
-        function init() {
-            for (let i = 0; i < particleCount; i++) particles.push(new Particle());
-        }
-
-        function animate() {
+        const anim = () => {
+            if (loader.classList.contains('loader-finished')) return;
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            particles.forEach(p => { p.update(); p.draw(); });
-            requestAnimationFrame(animate);
-        }
-        init();
-        animate();
+            ctx.fillStyle = "rgba(100, 149, 237, 0.5)"; // Azul Marinho
+            particles.forEach(p => {
+                p.x += p.vX; p.y += p.vY;
+                if(p.x < 0 || p.x > canvas.width) p.vX *= -1;
+                if(p.y < 0 || p.y > canvas.height) p.vY *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
+                ctx.fill();
+            });
+            requestAnimationFrame(anim);
+        };
+        anim();
     }
 
-    // 2. GATILHO PARA O LOADER SUMIR (O QUE ESTAVA FALTANDO)
-    // Espera 3.5 segundos (tempo da animação do RM) e esconde o loader
-    setTimeout(() => {
-        if (loader) {
-            loader.classList.add('loader-finished'); // Faz o fade out
-            document.body.classList.remove('loading-locked'); // Destrava o site
-            
-            // Remove do display depois que o fade acaba
-            setTimeout(() => {
-                loader.style.display = 'none';
-            }, 800);
-        }
-    }, 3500); 
-});
+    // 2. O MOMENTO DE SUMIR
+    // Espera tudo carregar + o tempo da animação do RM.
+    window.addEventListener('load', () => {
+        setTimeout(() => {
+            if (loader) loader.classList.add('loader-finished');
+            document.documentElement.classList.remove('loading-active');
+        }, 3500); 
+    });
+})();
 
-// Chame a função quando o site carregar
-initLoaderParticles();
     // --- POPULATE MARQUEE ---
     const marqueeContent = document.querySelector('.marquee-content');
     if (marqueeContent) {
@@ -4845,13 +4830,6 @@ function performSharedElementTransition() {
     }
 
 });
-
-
-
-
-
-
-
 
 
 
