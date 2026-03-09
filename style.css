@@ -7277,7 +7277,7 @@ body.mode-1914 button {
     stroke-dashoffset: 300;
     
    /* Brilho Marinho Discreto (Shadow suave em vez de neon) */
-    filter: drop-shadow(0 0 15px rgba(27, 39, 53, 0.6));
+   filter: drop-shadow(0 0 15px rgba(45, 52, 226, 0.7));
     
     animation: drawLogo 2.5s ease-in-out forwards, fillLogo 0.5s ease-out 2.5s forwards;
 }
