@@ -1,5 +1,53 @@
 document.addEventListener('DOMContentLoaded', () => {
+
+// Este código só roda quando a página carrega
+window.addEventListener('DOMContentLoaded', () => {
+    // Pegamos a sua div da intro
+    const loaderContainer = document.querySelector('.loader-bg');
     
+    // Pegamos o canvas SOMENTE DENTRO da intro
+    const canvas = loaderContainer ? loaderContainer.querySelector('#particle-canvas') : null;
+
+    if (canvas && loaderContainer) {
+        const ctx = canvas.getContext('2d');
+
+        function resize() {
+            // O canvas assume o tamanho da caixa da intro
+            canvas.width = loaderContainer.clientWidth;
+            canvas.height = loaderContainer.clientHeight;
+        }
+        
+        window.addEventListener('resize', resize);
+        resize();
+
+       const particles = Array.from({ length: 70 }, () => ({
+    x: Math.random() * canvas.width,
+    y: Math.random() * canvas.height,
+    // Aumentei o multiplicador de 0.5 para 2.5 para ficar mais fluido
+    vx: (Math.random() - 0.5) * 1, 
+    vy: (Math.random() - 0.5) * 1
+}));
+        function animate() {
+            // Se a intro sumiu, paramos de desenhar para economizar CPU
+            if (!document.body.contains(loaderContainer)) return;
+
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            ctx.fillStyle = '#2D34E2';
+            
+            particles.forEach(p => {
+                p.x += p.vx;
+                p.y += p.vy;
+                if (p.x < 0 || p.x > canvas.width) p.vx *= -1;
+                if (p.y < 0 || p.y > canvas.height) p.vy *= -1;
+                ctx.beginPath();
+                ctx.arc(p.x, p.y, 2, 0, Math.PI * 2);
+                ctx.fill();
+            });
+            requestAnimationFrame(animate);
+        }
+        animate();
+    }
+});
     // --- DATA SOURCE ---
     const headlines = [
         "NASA em Pânico: Agência espacial pede ajuda a Rafael após descobrir que Marte roda em Windows Vista.",
@@ -57,60 +105,7 @@ document.addEventListener('DOMContentLoaded', () => {
         { name: "Marcão", role: "Ídolo", text: "ESSE RAFAEL NÃO É BRINCADEIRA NÃO! É PROGRAMADOR, É iNTELIGENTE, É IDOLO! UMA BAITA DUMA LÓGICA DE PROGRAMAÇÃO!" }
     ];
     
-(function() {
-    // 1. Forçar a trava de scroll no HTML
-    document.documentElement.classList.add('loading-active');
 
-    const canvas = document.getElementById('particle-canvas');
-    const loader = document.getElementById('intro-loader');
-    
-    if (canvas) {
-        const ctx = canvas.getContext('2d');
-        let particles = [];
-        
-        const resize = () => {
-            canvas.width = window.innerWidth;
-            canvas.height = window.innerHeight;
-        };
-        window.addEventListener('resize', resize);
-        resize();
-
-        for(let i=0; i<70; i++) {
-            particles.push({
-                x: Math.random() * canvas.width,
-                y: Math.random() * canvas.height,
-                s: Math.random() * 2,
-                vX: (Math.random() - 0.5) * 0.5,
-                vY: (Math.random() - 0.5) * 0.5
-            });
-        }
-
-        const anim = () => {
-            if (loader.classList.contains('loader-finished')) return;
-            ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(100, 149, 237, 0.5)"; // Azul Marinho
-            particles.forEach(p => {
-                p.x += p.vX; p.y += p.vY;
-                if(p.x < 0 || p.x > canvas.width) p.vX *= -1;
-                if(p.y < 0 || p.y > canvas.height) p.vY *= -1;
-                ctx.beginPath();
-                ctx.arc(p.x, p.y, p.s, 0, Math.PI*2);
-                ctx.fill();
-            });
-            requestAnimationFrame(anim);
-        };
-        anim();
-    }
-
-    // 2. O MOMENTO DE SUMIR
-    // Espera tudo carregar + o tempo da animação do RM.
-    window.addEventListener('load', () => {
-        setTimeout(() => {
-            if (loader) loader.classList.add('loader-finished');
-            document.documentElement.classList.remove('loading-active');
-        }, 3500); 
-    });
-})();
 
     // --- POPULATE MARQUEE ---
     const marqueeContent = document.querySelector('.marquee-content');
